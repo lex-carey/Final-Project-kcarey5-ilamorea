@@ -4,7 +4,7 @@
 #include "game.h"
 
 #include <vector>
-
+#include <memory>
 
 class Stats {
 private:
