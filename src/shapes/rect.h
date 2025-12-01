@@ -3,7 +3,6 @@
 
 #include "shape.h"
 #include "../shader/shader.h"
-#include <iostream>
 using glm::vec2, glm::vec3;
 
 
