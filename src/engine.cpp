@@ -63,11 +63,20 @@ void Engine::initShaders() {
                                                   "../res/shaders/shape.frag",
                                                   nullptr, "shape");
 
+    // Configure text shader and renderer
+    textShader = shaderManager->loadShader("../res/shaders/text.vert", "../res/shaders/text.frag", nullptr, "text");
+    fontRenderer = make_unique<FontRenderer>(shaderManager->getShader("text"), "../res/fonts/MxPlus_IBM_BIOS.ttf", 24);
+
+
     // Set uniforms that never change
     shapeShader.use().setMatrix4("projection", this->PROJECTION);
+    //set uniforms
+
 }
 
 void Engine::initShapes() {
+    //should be red button in top left corner. There will be more buttons. We need a lot of buttons.
+    spawnButton = make_unique<Rect>(shapeShader, vec2{width/2,height/2}, vec2{100, 50}, color{1, 0, 0, 1});
 }
 
 void Engine::processInput() {

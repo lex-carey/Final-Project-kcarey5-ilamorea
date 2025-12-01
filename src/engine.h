@@ -8,7 +8,8 @@
 #include "shader/shaderManager.h"
 #include "shapes/rect.h"
 #include "shapes/shape.h"
-
+#include "font/fontRenderer.h"
+#include "font/font.h"
 using std::vector, std::unique_ptr, std::make_unique, glm::ortho, glm::mat4, glm::vec3, glm::vec4;
 
 /**
@@ -27,16 +28,24 @@ class Engine {
         /// @details Index this array with GLFW_KEY_{key} to get the state of a key.
         bool keys[1024];
 
+        /// @brief Responsible for rendering text on the screen.
+        /// @details Initialized in initShaders()
+        unique_ptr<FontRenderer> fontRenderer;
         /// @brief Responsible for loading and storing all the shaders used in the project.
         /// @details Initialized in initShaders()
         unique_ptr<ShaderManager> shaderManager;
         Shader shapeShader;
+        Shader textShader;
 
         /// @brief Shapes to be rendered.
         /// @details Initialized in initShapes()
         vector<unique_ptr<Shape>> shapes;
 
         double MouseX, MouseY;
+
+        //shapes
+    unique_ptr<Shape> spawnButton; //CHANGE THE NAME PROBABLY LOL
+
 
     public:
         /// @brief Constructor for the Engine class.
