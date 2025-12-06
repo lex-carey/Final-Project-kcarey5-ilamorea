@@ -1,6 +1,6 @@
 #include "engine.h"
 #include <iostream>
-
+#include <chrono>
 
 Engine::Engine() : keys() {
     this->initWindow();
@@ -98,6 +98,8 @@ void Engine::update() {
     // It needs to be called every frame
     // Without this function, the window will freeze and become unresponsive
     glfwPollEvents();
+    //if screen = board auto start = high_resolution_clock::now(); then if screen != board stop it. We can take the int and use it for a score/to display time.
+
 }
 
 void Engine::render() {
