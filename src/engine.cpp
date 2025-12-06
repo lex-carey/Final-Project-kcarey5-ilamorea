@@ -2,6 +2,8 @@
 #include <iostream>
 #include <chrono>
 
+enum state {menu, play, stats, over};
+state screen;
 Engine::Engine() : keys() {
     this->initWindow();
     this->initShaders();
@@ -94,6 +96,10 @@ void Engine::processInput() {
 }
 
 void Engine::update() {
+    // Calculate delta time
+    float currentFrame = glfwGetTime();
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
     // This function polls for events like keyboard input and mouse movement
     // It needs to be called every frame
     // Without this function, the window will freeze and become unresponsive
@@ -106,7 +112,12 @@ void Engine::render() {
     /*glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
         */
-
+    switch (screen) {
+        case menu:{}
+        case play: {}
+        case stats: {}
+        case over: {}
+    }
     // Render shapes
     // For each shape, call it's setUniforms() function and then call it's draw() function
 
