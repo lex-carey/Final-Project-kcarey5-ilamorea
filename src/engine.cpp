@@ -79,6 +79,8 @@ void Engine::initShaders() {
 void Engine::initShapes() {
     //should be red button in top left corner. There will be more buttons. We need a lot of buttons.
     spawnButton = make_unique<Rect>(shapeShader, vec2{width/2,height/2}, vec2{100, 50}, color{1, 0, 0, 1});
+
+    gameBoard = make_unique<Board>(shapeShader);
 }
 
 void Engine::processInput() {
@@ -93,6 +95,22 @@ void Engine::processInput() {
     // Close window if escape key is pressed
     if (keys[GLFW_KEY_ESCAPE])
         glfwSetWindowShouldClose(window, true);
+
+    glfwGetCursorPos(window, &MouseX, &MouseY);
+
+    MouseY = height - MouseY;
+    bool leftClick = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
+
+    if (leftClick) {
+        bool clicked = false;
+        for (const vector<Tile> &tiles : *gameBoard->board) {
+            for (const Tile &tile : tiles) {
+                if (tile.getClicked()) clicked = true;
+            }
+        }
+
+    }
+
 }
 
 void Engine::update() {
@@ -106,6 +124,14 @@ void Engine::update() {
     glfwPollEvents();
     //if screen = board auto start = high_resolution_clock::now(); then if screen != board stop it. We can take the int and use it for a score/to display time.
 
+    for (const vector<Tile> &tiles : *gameBoard->board) {
+        for (const Tile &tile : tiles) {
+            if (tile.getBomb() == tile.getClicked() == true) {
+                //game over
+            }
+        }
+    }
+
 }
 
 void Engine::render() {
@@ -116,7 +142,12 @@ void Engine::render() {
         case menu:{}
         case play: {}
         case stats: {}
-        case over: {}
+        case over:
+            {
+                // i think for the game over screen i don't want to make it another screen
+                // if you go to minesweeperonline.com and see what they do for a game over thing I like that
+                // I kind of want to do that instead + it's less coding
+            }
     }
     // Render shapes
     // For each shape, call it's setUniforms() function and then call it's draw() function

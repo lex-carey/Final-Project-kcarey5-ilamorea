@@ -7,7 +7,7 @@ To-Do:
   * Bombs remaining
   * Start/restart board button
 * States for squares
-  * Make a tile class
+  * Make a tile class - DONE (lex)
     * state clicked/unclicked (probably bool? initialized to clicked=false)
     * Bool bomb 
     * int value for number of bombs surrounding

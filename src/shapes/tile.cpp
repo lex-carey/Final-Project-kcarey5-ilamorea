@@ -2,7 +2,7 @@
 
 
 Tile::Tile(Shader& shader, vec2 pos, vec2 size, struct color color) : Rect(shader, pos, size, color) {
-    clicked = bomb = false;
+    clicked = bomb = marked = false;
     surrBombs = 0;
 }
 

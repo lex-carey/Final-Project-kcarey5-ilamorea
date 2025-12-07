@@ -5,7 +5,7 @@
 
 class Tile : public Rect {
 private:
-    bool clicked, bomb;
+    bool clicked, bomb, marked;
     int surrBombs;
 public:
     //Constructor
@@ -23,6 +23,10 @@ public:
     bool getClicked() const;
     bool getBomb() const;
     int getSurrBombs() const;
+
+    static bool isOverlapping(const Tile &t1, const Tile &t2);
+
+    bool isOverlapping(const Rect& r) const override;
 };
 
 

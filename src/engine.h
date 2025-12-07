@@ -10,6 +10,7 @@
 #include "shapes/shape.h"
 #include "font/fontRenderer.h"
 #include "font/font.h"
+#include "shapes/board.h"
 using std::vector, std::unique_ptr, std::make_unique, glm::ortho, glm::mat4, glm::vec3, glm::vec4;
 
 /**
@@ -42,9 +43,11 @@ class Engine {
         vector<unique_ptr<Shape>> shapes;
 
         double MouseX, MouseY;
+        bool mousePressedLastFrame = false;
 
         //shapes
-    unique_ptr<Shape> spawnButton; //CHANGE THE NAME PROBABLY LOL
+        unique_ptr<Board> gameBoard;
+        unique_ptr<Shape> spawnButton; //CHANGE THE NAME PROBABLY LOL
 
 
     public:
