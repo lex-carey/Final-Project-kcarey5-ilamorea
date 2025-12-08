@@ -7,7 +7,7 @@
 
 #include "tile.h"
 #include "../shader/shader.h"
-
+#include <memory>
 class Board {
 private:
   int totalWidth, totalHeight;
