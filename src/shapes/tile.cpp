@@ -2,8 +2,9 @@
 
 
 Tile::Tile(Shader& shader, vec2 pos, vec2 size, struct color color) : Rect(shader, pos, size, color) {
-    clicked = bomb = marked = false;
+    clicked = marked = false;
     surrBombs = 0;
+    state = States::UNSET;
 }
 
 Tile::~Tile() {
@@ -15,8 +16,8 @@ void Tile::setClicked(bool& clicked) {
     this->clicked = clicked;
 }
 
-void Tile::setBomb(bool& bomb) {
-    this->bomb = bomb;
+void Tile::setState(int state) {
+    this->state = static_cast<States>(state);
 }
 
 void Tile::setSurrBombs(int& surrBombs) {
@@ -28,9 +29,13 @@ bool Tile::getClicked() const {
 }
 
 bool Tile::getBomb() const {
-    return bomb;
+    return state == States::BOMB;
 }
 
 int Tile::getSurrBombs() const {
     return surrBombs;
+}
+
+int Tile::getState() const {
+    return static_cast<int>(state);
 }

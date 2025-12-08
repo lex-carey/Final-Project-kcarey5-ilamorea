@@ -10,9 +10,9 @@
 
 class Board {
 private:
-  int totalWidth, totalHeight;
-public:
+  int totalWidth, totalHeight, boardWidth, boardHeight, boardMines;
   std::unique_ptr<vector<vector<Tile>>> board;
+public:
   Board(Shader& shader);
 
   /// @brief Destroy the Square object and delete it's VAO and VBO
@@ -21,7 +21,25 @@ public:
   /// @brief Binds the VAO and calls the virtual draw function
   void setUniformsAndDraw() const;
 
-  Tile getTile(int &x, int &y);
+  int getTotalMines(std::unique_ptr<vector<vector<Tile>>> &board) const;
 
+  int getMaxMinesAllowed(std::unique_ptr<vector<vector<Tile>>> &board) const;
+
+  void placeRandomMines(std::unique_ptr<vector<vector<Tile>>> &board, int &numleft);
+
+  void clearPoint(std::unique_ptr<vector<vector<Tile>>> &board, int &posx, int &posy);
+
+  int getNumMinesPoint(std::unique_ptr<vector<vector<Tile>>> &board, int &x, int &y) const;
+
+  void openBoardPosition(vector<vector<int>> &points, std::unique_ptr<vector<vector<Tile>>> &board, std::unique_ptr<vector<vector<Tile>>> &dispBoard, int x, int y);
+
+  vector<vector<int>> getMinesAtPoint(std::unique_ptr<vector<vector<Tile>>> &board, int x, int y);
+
+  vector<vector<int>> getAvailablePoints(std::unique_ptr<vector<vector<Tile>>> &board, int &x, int &y);
+
+  void generateBoard(int &startx, int &starty);
+
+  void setSurroundingBombs();
 };
 #endif //BOARD_H
+

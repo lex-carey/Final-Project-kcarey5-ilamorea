@@ -5,8 +5,9 @@
 
 class Tile : public Rect {
 private:
-    bool clicked, bomb, marked;
+    bool clicked, marked;
     int surrBombs;
+    enum class States {SAFE = -1, UNSET = 0, POSSIBLE_BOMB = 1, BOMB = 2} state;
 public:
     //Constructor
     Tile(Shader& shader, vec2 pos, vec2 size, struct color color);
@@ -16,17 +17,16 @@ public:
 
     //Setters
     void setClicked(bool& clicked);
-    void setBomb(bool& bomb);
+    void setState(int state);
     void setSurrBombs(int& surrBombs);
 
     //Getters
     bool getClicked() const;
     bool getBomb() const;
     int getSurrBombs() const;
+    int getState() const;
 
-    static bool isOverlapping(const Tile &t1, const Tile &t2);
-
-    bool isOverlapping(const Rect& r) const override;
+    //TODO: figure out overlapping functions
 };
 
 
