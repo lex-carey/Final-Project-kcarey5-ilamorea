@@ -2,7 +2,7 @@
 #include <iostream>
 #include <chrono>
 
-enum state {menu, play, stats, over};
+enum state {menu, play, stats};
 state screen;
 Engine::Engine() : keys() {
     this->initWindow();
@@ -142,12 +142,7 @@ void Engine::render() {
         case menu:{}
         case play: {}
         case stats: {}
-        case over:
-            {
-                // i think for the game over screen i don't want to make it another screen
-                // if you go to minesweeperonline.com and see what they do for a game over thing I like that
-                // I kind of want to do that instead + it's less coding
-            }
+
     }
     // Render shapes
     // For each shape, call it's setUniforms() function and then call it's draw() function
