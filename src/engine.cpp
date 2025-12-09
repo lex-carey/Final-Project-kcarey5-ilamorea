@@ -110,9 +110,15 @@ void Engine::processInput() {
         }
 
     }
-    bool buttonOverlapsMouse = spawnButton->isOverlapping(vec2(MouseX, MouseY));
+    bool spawnButtonOverlapsMouse = spawnButton->isOverlapping(vec2(MouseX, MouseY));
     bool mousePressed = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
-
+    if (mousePressed && spawnButtonOverlapsMouse) {
+        screen = play;
+    }
+    bool statsButtonOverlapsMouse = statsButton->isOverlapping(vec2(MouseX, MouseY));
+    if (mousePressed && statsButtonOverlapsMouse) {
+        screen = stats;
+    }
 }
 
 void Engine::update() {
