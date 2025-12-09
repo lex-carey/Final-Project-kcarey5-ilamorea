@@ -8,10 +8,11 @@
 #include "tile.h"
 #include "../shader/shader.h"
 #include <memory>
+
 class Board {
 private:
   int totalWidth, totalHeight, boardWidth, boardHeight, boardMines;
-  std::unique_ptr<vector<vector<Tile>>> board;
+  vector<vector<std::unique_ptr<Tile>>> board;
 public:
   Board(Shader& shader);
 
@@ -21,21 +22,21 @@ public:
   /// @brief Binds the VAO and calls the virtual draw function
   void setUniformsAndDraw() const;
 
-  int getTotalMines(std::unique_ptr<vector<vector<Tile>>> &board) const;
+  int getTotalMines(vector<vector<std::unique_ptr<Tile>>> &board) const;
 
-  int getMaxMinesAllowed(std::unique_ptr<vector<vector<Tile>>> &board) const;
+  int getMaxMinesAllowed(vector<vector<std::unique_ptr<Tile>>> &board) const;
 
-  void placeRandomMines(std::unique_ptr<vector<vector<Tile>>> &board, int &numleft);
+  void placeRandomMines(vector<vector<std::unique_ptr<Tile>>> &board, int &numleft) ;
 
-  void clearPoint(std::unique_ptr<vector<vector<Tile>>> &board, int &posx, int &posy);
+  void clearPoint(vector<vector<std::unique_ptr<Tile>>> &board, int &posx, int &posy);
 
-  int getNumMinesPoint(std::unique_ptr<vector<vector<Tile>>> &board, int &x, int &y) const;
+  int getNumMinesPoint(vector<vector<std::unique_ptr<Tile>>> &board, int &x, int &y) const;
 
-  void openBoardPosition(vector<vector<int>> &points, std::unique_ptr<vector<vector<Tile>>> &board, std::unique_ptr<vector<vector<Tile>>> &dispBoard, int x, int y);
+  void openBoardPosition(vector<vector<int>> &points, vector<vector<std::unique_ptr<Tile>>> &board, vector<vector<std::unique_ptr<Tile>>> &dispBoard, int x, int y);
 
-  vector<vector<int>> getMinesAtPoint(std::unique_ptr<vector<vector<Tile>>> &board, int x, int y);
+  vector<vector<int>> getMinesAtPoint(vector<vector<std::unique_ptr<Tile>>> &board, int x, int y);
 
-  vector<vector<int>> getAvailablePoints(std::unique_ptr<vector<vector<Tile>>> &board, int &x, int &y);
+  vector<vector<int>> getAvailablePoints(vector<vector<std::unique_ptr<Tile>>> &board, int x, int y);
 
   void generateBoard(int &startx, int &starty);
 
