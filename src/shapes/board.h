@@ -12,8 +12,9 @@
 class Board {
 private:
   int totalWidth, totalHeight, boardWidth, boardHeight, boardMines;
-  vector<vector<std::unique_ptr<Tile>>> board;
 public:
+  vector<vector<std::unique_ptr<Tile>>> board;
+
   Board(Shader& shader);
 
   /// @brief Destroy the Square object and delete it's VAO and VBO
@@ -39,6 +40,14 @@ public:
   vector<vector<int>> getAvailablePoints(vector<vector<std::unique_ptr<Tile>>> &board, int x, int y);
 
   void generateBoard(int &startx, int &starty);
+
+  void tileLeftClick(const vec2 &point);
+
+  bool tileClicked(const vec2 &point);
+
+  void uncoverTile(int x, int y);
+
+  vector<vector<int>> showVals();
 
   void setSurroundingBombs();
 };

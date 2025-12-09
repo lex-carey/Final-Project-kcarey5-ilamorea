@@ -16,7 +16,7 @@ public:
     ~Tile();
 
     //Setters
-    void setClicked(bool& clicked);
+    void setClicked(bool clicked);
     void setState(int state);
     void setSurrBombs(int& surrBombs);
 
@@ -25,6 +25,7 @@ public:
     bool getBomb() const;
     int getSurrBombs() const;
     int getState() const;
+    bool getOverlapping(vec2 point);
 
     //TODO: figure out overlapping functions
 };

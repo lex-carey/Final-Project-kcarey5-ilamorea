@@ -363,6 +363,55 @@ void Board::generateBoard(int &startx, int &starty) {
     }
 }
 
+void Board::tileLeftClick(const vec2 &point) {
+    //tile uncovered if a tile in board is left-clicked.
+    for (int x = 0; x < boardWidth; x++) {
+        for (int y = 0; y < boardHeight; y++) {
+            if (point.x < board[x][y]->getRight() &&
+                point.x > board[x][y]->getLeft() &&
+                point.y < board[x][y]->getTop() &&
+                point.y > board[x][y]->getBottom()) uncoverTile(x, y);
+        }
+    }
+}
+
+bool Board::tileClicked(const vec2 &point) {
+    bool clicked = false;
+    for (int x = 0; x < boardWidth; x++) {
+        for (int y = 0; y < boardHeight; y++) {
+            if (point.x < board[x][y]->getRight() &&
+                point.x > board[x][y]->getLeft() &&
+                point.y < board[x][y]->getTop() &&
+                point.y > board[x][y]->getBottom()) clicked = true;
+        }
+    }
+    return clicked;
+}
+
+void Board::uncoverTile(int x, int y) {
+    board[x][y]->setClicked(true);
+    if (board[x][y]->getSurrBombs() == 0) {
+        if (x > 0 && y > 0 && (board)[x-1][y-1]->getSurrBombs() == 0) uncoverTile(x-1, y-1);
+        if (x > 0 && (board)[x-1][y]->getSurrBombs() == 0) uncoverTile(x-1, y);
+        if (x > 0 && y < boardHeight - 1 && (board)[x-1][y+1]->getSurrBombs() == 0) uncoverTile(x-1, y+1);
+        if (y > 0 && (board)[x][y-1]->getSurrBombs() == 0) uncoverTile(x, y-1);
+        if (y < boardHeight - 1 && (board)[x][y+1]->getSurrBombs() == 0) uncoverTile(x, y+1);
+        if (y > 0 && x < boardWidth - 1 && (board)[x+1][y-1]->getSurrBombs() == 0) uncoverTile(x+1, y-1);
+        if (x < boardWidth - 1 && (board)[x+1][y]->getSurrBombs() == 0) uncoverTile(x+1, y);
+        if (y < boardHeight - 1 && x < boardWidth - 1 && (board)[x+1][y+1]->getSurrBombs() == 0) uncoverTile(x+1, y+1);
+    }
+}
+
+vector<vector<int>> Board::showVals() {
+    vector<vector<int>> vals;
+    for (int x = 0; x < boardWidth; x++) {
+        for (int y = 0; y < boardHeight; y++) {
+            if (board[x][y]->getSurrBombs() > 0 && board[x][y]->getClicked()) vals.push_back(vector<int>{x, y});
+        }
+    }
+    return vals;
+}
+
 void Board::setSurroundingBombs() {
    for (int x = 0; x < boardWidth; x++) {
        for (int y = 0; y < boardHeight; y++) {
@@ -371,12 +420,3 @@ void Board::setSurroundingBombs() {
        }
    }
 }
-
-
-
-
-
-
-
-
-

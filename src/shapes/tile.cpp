@@ -12,8 +12,9 @@ Tile::~Tile() {
     glDeleteBuffers(1, &VBO);
 }
 
-void Tile::setClicked(bool& clicked) {
+void Tile::setClicked(bool clicked) {
     this->clicked = clicked;
+    this->setColor(vec4(187.0/255, 187.0/255, 187.0/255, 1.0));
 }
 
 void Tile::setState(int state) {
@@ -38,4 +39,13 @@ int Tile::getSurrBombs() const {
 
 int Tile::getState() const {
     return static_cast<int>(state);
+}
+
+bool Tile::getOverlapping(vec2 point) {
+    bool overlapping = false;
+    if (point.x < this->getRight() &&
+        point.x > this->getLeft() &&
+        point.y < this->getTop() &&
+        point.y > this->getBottom()) overlapping = true;
+    return overlapping;
 }

@@ -102,14 +102,25 @@ void Engine::processInput() {
     bool leftClick = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 
     if (leftClick) {
-        bool clicked = false;
-        for (const vector<Tile> &tiles : *gameBoard->board) {
-            for (const Tile &tile : tiles) {
-                if (tile.getClicked()) clicked = true;
+        bool boardGenerated = false;
+        for (vector<std::unique_ptr<Tile>> &tiles : gameBoard->board) {
+            for (std::unique_ptr<Tile> &tile : tiles) {
+                if (tile->getSurrBombs() != 0) boardGenerated = true;
             }
         }
-
+        if (boardGenerated) gameBoard->tileLeftClick(vec2(MouseX, MouseY));
+        if (!boardGenerated) {
+            for (int x = 0; x < width; ++x) {
+                for (int y = 0; y < height; ++y) {
+                    if (gameBoard->board[x][y]->getOverlapping(vec2(MouseX, MouseY))) {
+                        gameBoard->generateBoard(x, y);
+                        gameBoard->setSurroundingBombs();
+                    }
+                }
+            }
+        }
     }
+
     bool spawnButtonOverlapsMouse = spawnButton->isOverlapping(vec2(MouseX, MouseY));
     bool mousePressed = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
     if (mousePressed && spawnButtonOverlapsMouse) {
@@ -132,10 +143,10 @@ void Engine::update() {
     glfwPollEvents();
     //if screen = board auto start = high_resolution_clock::now(); then if screen != board stop it. We can take the int and use it for a score/to display time.
 
-    for (const vector<Tile> &tiles : *gameBoard->board) {
-        for (const Tile &tile : tiles) {
-            if (tile.getBomb() == tile.getClicked() == true) {
-                //game over
+    for (const vector<unique_ptr<Tile>> &tiles : gameBoard->board) {
+        for (const unique_ptr<Tile> &tile : tiles) {
+            if (tile->getBomb() == tile->getClicked() == true) {
+                screen = menu;
             }
         }
     }
@@ -156,7 +167,15 @@ void Engine::render() {
             fontRenderer->renderText("View Stats", statsButton->getPos().x - 60, statsButton->getPos().y - 20, projection, 0.5, vec3{1, 1, 1});
             break;
         }
-        case play: {}
+        case play:
+            {
+                gameBoard->setUniformsAndDraw();
+                for (vector<int> pos : gameBoard->showVals()) {
+                    int b = gameBoard->board[pos[0]][pos[1]]->getSurrBombs();
+                    fontRenderer->renderText(std::to_string(b), gameBoard->board[pos[0]][pos[1]]->getPosX() - 6, gameBoard->board[pos[0]][pos[1]]->getPosY(), projection, 0.5, vec3{70.0/255, 85.0/255, 190.0/255});
+                }
+                break;
+            }
         case stats: {}
 
     }
