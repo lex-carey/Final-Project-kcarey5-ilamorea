@@ -79,7 +79,7 @@ void Engine::initShaders() {
 void Engine::initShapes() {
     //should be red button in top left corner. There will be more buttons. We need a lot of buttons.
     spawnButton = make_unique<Rect>(shapeShader, vec2{width/2,height/2}, vec2{100, 50}, color{1, 0, 0, 1});
-
+    statsButton = make_unique<Rect>(shapeShader, vec2{width/2,height/2}, vec2{100, 50}, color{1, 0, 0, 1});
     gameBoard = make_unique<Board>(shapeShader);
 }
 
@@ -110,6 +110,8 @@ void Engine::processInput() {
         }
 
     }
+    bool buttonOverlapsMouse = spawnButton->isOverlapping(vec2(MouseX, MouseY));
+    bool mousePressed = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 
 }
 
@@ -139,7 +141,15 @@ void Engine::render() {
     glClear(GL_COLOR_BUFFER_BIT);
         */
     switch (screen) {
-        case menu:{}
+        case menu: {
+            spawnButton->setUniforms();
+            this->spawnButton->draw();
+            fontRenderer->renderText("Launch Game", spawnButton->getPos().x - 30, spawnButton->getPos().y - 5, projection, 0.5, vec3{1, 1, 1});
+            statsButton->setUniforms();
+            this->statsButton->draw();
+            fontRenderer->renderText("View Stats", statsButton->getPos().x - 60, statsButton->getPos().y - 20, projection, 0.5, vec3{1, 1, 1});
+            break;
+        }
         case play: {}
         case stats: {}
 

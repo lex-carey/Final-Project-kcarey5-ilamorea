@@ -25,6 +25,9 @@ class Engine {
         /// @brief The width and height of the window.
         const unsigned int width = 800, height = 600; // Window dimensions
 
+    /// @brief The projection matrix
+    const glm::mat4 projection = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
+
         /// @brief Keyboard state (True if pressed, false if not pressed).
         /// @details Index this array with GLFW_KEY_{key} to get the state of a key.
         bool keys[1024];
@@ -48,7 +51,7 @@ class Engine {
         //shapes
         unique_ptr<Board> gameBoard;
         unique_ptr<Shape> spawnButton; //CHANGE THE NAME PROBABLY LOL
-
+        unique_ptr<Shape> statsButton;
 
     public:
         /// @brief Constructor for the Engine class.
